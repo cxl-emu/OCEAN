@@ -33,7 +33,7 @@ sudo ../launch_qemu_cxl1.sh
 ```
 
 ## GROMACS
- 
+Change the hostfile in host 1 to reflect the number of hosts. 
 ```bash
 # Inside host 1:
 export CXL_DAX_PATH="/dev/dax0.0"
@@ -54,6 +54,8 @@ cd workloads/tigon
 
 
 ## OSU Benchmark
+Change the hostfile in host 1 to reflect the number of hosts. 
 ```bash
+# Inside host 1:
 LD_PRELOAD=/root/libmpi_cxl_shim.so mpirun --allow-run-as-root -np 2 -hostfile hostfile_cp -x CXL_DAX_PATH -x CXL_DAX_RESET -x CXL_SHIM_VERBOSE -x LD_PRELOAD ~/osu-micro-benchmarks/mpi/collective/osu_allgather
 ```
