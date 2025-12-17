@@ -7,15 +7,9 @@ Compute Express Link (CXL) 3.0 introduces powerful memory pooling and promises t
 ```bash
 git clone https://github.com/mujahidalrafi/OCEAN.git
 cd OCEAN
-sudo ip link add br0 type bridge
-sudo ip link set br0 up
-sudo ip addr add 192.168.100.1/24 dev br0
-# Change this based on the number of hosts you want to simulate:
-for i in 0 1; do
-    sudo ip tuntap add tap$i mode tap
-    sudo ip link set tap$i up
-    sudo ip link set tap$i master br0
-done
+bash ./script/setup_host.sh
+# Assuming 2 hosts simulation. Change this based on the number of hosts you want to simulate:
+bash ./script/setup_network.sh 2
 cd qemu_integration
 mkdir build
 cd build
@@ -25,20 +19,21 @@ sudo make install
 wget https://asplos.dev/about/qemu.img
 wget https://asplos.dev/about/bzImage
 cp qemu.img qemu1.img
-../qemu_integration/launch_qemu_cxl1.sh
+./start_server.sh 9999 topology_simple.txt
+sudo ../launch_qemu_cxl1.sh # login as root with password: victor129
 # in qemu
 vi /usr/local/bin/*.sh
 # change 192.168.100.10 to 11
 vi /etc/hostname
 # change node0 to node1
-exit
+shutdown now
 # out of qemu
-../qemu_integration/launch_qemu_cxl.sh &
-../qemu_integration/launch_qemu_cxl1.sh &
+sudo ../launch_qemu_cxl.sh 
+sudo ../launch_qemu_cxl1.sh 
 ```
 
 ## GROMACS
- 
+Change the hostfile in host 1 to reflect the number of hosts. 
 ```bash
 # Inside host 1:
 export CXL_DAX_PATH="/dev/dax0.0"
@@ -53,13 +48,16 @@ LD_PRELOAD=/root/libmpi_cxl_shim.so mpirun --allow-run-as-root -np 2 -hostfile h
 ```bash
 cd workloads/tigon
 ./scripts/setup.sh HOST
+./emulation/image/make_vm_img.sh
+sudo ./emulation/start_vms.sh --using-old-img --cxl 0 5 2 0 1 # using 2 hosts
+./scripts/setup.sh VMS 2
 ./scripts/run.sh COMPILE_SYNC 2
-./scripts/run.sh TPCC TwoPLPasha 8 3 mixed 10 15 1 0 1 Clock OnDemand 200000000 1 WriteThrough None 15 5 GROUP_WAL 20000 0 0
-./scripts/run_tpcc.sh ./results/test1
+./scripts/run_tpcc_dax.sh TwoPLPasha 2 3 mixed 10 15 1 0 1 Clock OnDemand 200000000 1 WriteThrough None 15 5 GROUP_WAL 20000 0 0
 ```
 
 
 ## OSU Benchmark
+Change the hostfile in host 1 to reflect the number of hosts. 
 ```bash
 # Inside host 1:
 export CXL_DAX_PATH="/dev/dax0.0"

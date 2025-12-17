@@ -1,6 +1,6 @@
 # #!/bin/bash
 
-QEMU_BINARY=/opt/qemu-jic23/bin/qemu-system-x86_64
+QEMU_BINARY=/usr/local/bin/qemu-system-x86_64
 CXL_MEMSIM_HOST=${CXL_MEMSIM_HOST:-127.0.0.1}
 CXL_MEMSIM_PORT=${CXL_MEMSIM_PORT:-9999}
 VM_MEMORY=${VM_MEMORY:-2G}
@@ -15,8 +15,8 @@ export CXL_MEMSIM_PORT=9999
 
 exec $QEMU_BINARY \
     --enable-kvm -cpu qemu64,+xsave,+rdtscp,+avx,+avx2,+sse4.1,+sse4.2,+avx512f,+avx512dq,+avx512ifma,+avx512cd,+avx512bw,+avx512vl,+avx512vbmi,+clflushopt  \
-    -kernel /home/exouser/projects/OCEAN/qemu_integration/build/bzImage \
-    -append "root=/dev/sda rw console=ttyS0,115200 ignore_loglevel nokaslr nokaslr nosmp nopti nospectre_v2" \
+    -kernel ./bzImage \
+    -append "root=/dev/sda rw console=ttyS0,115200 ignore_loglevel nokaslr nokaslr nosmp nopti nospectre_v2 mem=2G" \
     -netdev tap,id=network0,ifname=tap0,script=no,downscript=no \
     -device e1000,netdev=network0,mac=52:54:00:00:00:01 \
     -drive file=/home/exouser/projects/OCEAN/qemu_integration/build/qemu.img,index=0,media=disk,format=raw \
