@@ -35,6 +35,10 @@ sudo ../launch_qemu_cxl1.sh
 ## GROMACS
 Change the hostfile in host 1 to reflect the number of hosts. 
 ```bash
+cd workloads/gromacs
+./build.sh
+scp libmpi_cxl_shim.so  root@192.168.100.10:/root
+scp libmpi_cxl_shim.so  root@192.168.100.11:/root
 # Inside host 1:
 export CXL_DAX_PATH="/dev/dax0.0"
 export CXL_DAX_RESET=1  # Reset allocation counter on first process
