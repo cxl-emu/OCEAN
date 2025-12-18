@@ -5,7 +5,7 @@ Compute Express Link (CXL) 3.0 introduces powerful memory pooling and promises t
 
 
 ```bash
-git clone https://github.com/mujahidalrafi/OCEAN.git
+git clone https://github.com/cxl-emu/OCEAN.git
 cd OCEAN
 bash ./script/setup_host.sh
 # Assuming 2 hosts simulation. Change this based on the number of hosts you want to simulate:
