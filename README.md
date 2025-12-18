@@ -68,5 +68,5 @@ Change the hostfile in host 1 to reflect the number of hosts.
 export CXL_DAX_PATH="/dev/dax0.0"
 export CXL_DAX_RESET=1  # Reset allocation counter on first process
 export CXL_SHIM_VERBOSE=1
-LD_PRELOAD=/root/libmpi_cxl_shim.so mpirun --allow-run-as-root -np 2 -hostfile hostfile_cp -x CXL_DAX_PATH -x CXL_DAX_RESET -x CXL_SHIM_VERBOSE -x LD_PRELOAD ~/osu-micro-benchmarks/mpi/collective/osu_allgather
+LD_PRELOAD=/root/libmpi_cxl_shim.so mpirun --allow-run-as-root -np 2 -hostfile hostfile -x CXL_DAX_PATH -x CXL_DAX_RESET -x CXL_SHIM_VERBOSE -x LD_PRELOAD ~/osu-micro-benchmarks/mpi/collective/osu_allgather
 ```
