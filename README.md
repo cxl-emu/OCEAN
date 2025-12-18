@@ -44,10 +44,7 @@ cd workloads/gromacs
 scp libmpi_cxl_shim.so  root@192.168.100.10:/root
 scp libmpi_cxl_shim.so  root@192.168.100.11:/root
 # Inside host 1:
-export CXL_DAX_PATH="/dev/dax0.0"
-export CXL_DAX_RESET=1  # Reset allocation counter on first process
-export CXL_SHIM_VERBOSE=1
-LD_PRELOAD=/root/libmpi_cxl_shim.so mpirun --allow-run-as-root -np 2 -hostfile hostfile -x CXL_DAX_PATH -x CXL_DAX_RESET -x CXL_SHIM_VERBOSE -x LD_PRELOAD ./gmx_mpi mdrun -s benchMEM.tpr -nsteps 10000 -resethway -ntomp 1
+mpirun --allow-run-as-root -x CXL_SHIM_TRACE=1 -x CXL_DAX_PATH=/dev/dax0.0 -x LD_PRELOAD=$PWD/libmpi_cxl_shim.so --hostfile ./hostfile ./gromacs-2025.3/build/bin/gmx_mpi mdrun -s benchMEM.tpr -nsteps 10000 -resethway -ntomp 1
 ```
 
 
