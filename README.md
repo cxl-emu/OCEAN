@@ -8,8 +8,12 @@ Compute Express Link (CXL) 3.0 introduces powerful memory pooling and promises t
 git clone https://github.com/cxl-emu/OCEAN.git
 cd OCEAN
 bash ./script/setup_host.sh
-# Assuming 2 hosts simulation. Change this based on the number of hosts you want to simulate:
+# Assuming 2 hosts simulation. Change this based on the number of hosts you want to simulate. Skip this if you are using multiple physical machines:
 bash ./script/setup_network.sh 2
+
+# If you are using multiple physical machines, Run this instead:
+bash ./script/setup_optional_cross_machine_network.sh 2
+
 cd qemu_integration
 mkdir build
 cd build
