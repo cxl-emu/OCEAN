@@ -19,7 +19,7 @@ exec $QEMU_BINARY \
     -append "root=/dev/sda rw console=ttyS0,115200 ignore_loglevel nokaslr nokaslr nosmp nopti nospectre_v2 mem=2G" \
     -netdev tap,id=network0,ifname=tap0,script=no,downscript=no \
     -device e1000,netdev=network0,mac=52:54:00:00:00:01 \
-    -drive file./qemu.img,index=0,media=disk,format=raw \
+    -drive file=./qemu.img,index=0,media=disk,format=raw \
     -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
     -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
     -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=0 \
