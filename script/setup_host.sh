@@ -2,6 +2,9 @@
 set -x
 set -e
 
+git submodule add https://github.com/CXLMemUring/qemu lib/qemu
+git submodule add https://github.com/CXLMemUring/tigon workloads/tigon
+
 sudo apt update && sudo apt install llvm-dev clang libbpf-dev libclang-dev python3-pip libcxxopts-dev libboost-dev nvidia-cuda-dev libfmt-dev libspdlog-dev librdmacm-dev
 pip install tomli
 sudo apt-get install libglib2.0-dev libgcrypt20-dev zlib1g-dev \
@@ -23,9 +26,8 @@ sudo ./bootstrap
 sudo make -j$(nproc)
 sudo make install
 cmake --version
-cd ..
+cd ../..
 sudo rm -rf temp
-cd ..
 
 cd ./lib/qemu
 mkdir -p build
