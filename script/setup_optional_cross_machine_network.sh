@@ -1,8 +1,8 @@
 #!/bin/bash 
 set -eux 
-if [ $# != 1 ]; then
-    echo "[ERROR] Wrong arguments number. Abort."
-    exit 0
+if [ $# -ne 2 ]; then
+    echo "[ERROR] Missing arguments. Usage: $0 <num_vms> <br_ip_suffix>"
+    exit 1
 fi
 
 typeset num_vms=$1
@@ -11,11 +11,14 @@ DEV=enp23s0f0np0
 BR=br0
 VNI=100 
 MCAST=239.1.1.1 
-BR_IP_SUFFIX=$(hostname | grep -oE '[0-9]+$' || echo 1) # optional auto-index
-# Or set manually: 
-# BR_IP_SUFFIX=<1..4>  
+BR_IP_SUFFIX=$2
 
-# Clean up 
+# Clean up tap devices
+for ((i = 0 ; i < $num_vms ; i++ )); do
+    ip link del tap$i 2>/dev/null || true
+done
+
+# Clean up bridge and vxlan
 ip link del $BR 2>/dev/null || true 
 ip link del vxlan$VNI 2>/dev/null || true 
 
@@ -24,7 +27,8 @@ ip link add $BR type bridge
 ip link set $BR up 
 
 # Create multicast VXLAN (no remote attribute!) 
-ip link add vxlan$VNI type vxlan id $VNI group $MCAST dev $DEV dstport 4789 ttl 10 
+ip route replace $MCAST/32 dev $DEV
+ip link add vxlan$VNI type vxlan id $VNI group $MCAST dev $DEV dstport 4789 ttl 10 nolearning 
 ip link set vxlan$VNI up 
 ip link set vxlan$VNI master $BR  
 

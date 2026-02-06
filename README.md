@@ -12,7 +12,14 @@ bash ./script/setup_host.sh
 bash ./script/setup_network.sh 2
 
 # If you are using multiple physical machines, Run this instead:
-bash ./script/setup_optional_cross_machine_network.sh 2
+bash ./script/setup_optional_cross_machine_network.sh <num_vms> <br_ip_suffix>
+# <num_vms>: number of VMs to create on this host
+# <br_ip_suffix>: unique host identifier (1-254), used for bridge IP 192.168.100.<br_ip_suffix>
+# Example: 
+# create 1 VM on host 1
+bash ./script/setup_optional_cross_machine_network.sh 1 1
+# create 1 VM on host 2
+bash ./script/setup_optional_cross_machine_network.sh 1 2
 
 mkdir build
 cd build
