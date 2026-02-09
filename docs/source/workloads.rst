@@ -17,7 +17,6 @@ OCEAN includes workloads across multiple computational domains:
 * **GROMACS** - Molecular dynamics for scientific computing
 * **TIGON** - Distributed database with TPC-C benchmark
 * **OSU Benchmarks** - MPI collective communication tests
-* **GAPBS** - Graph algorithm benchmarks
 
 How Workloads Use CXL Memory
 -----------------------------
@@ -267,61 +266,6 @@ Expected Output
    2                      13.45
    4                      14.56
    ...
-
-GAPBS
-=====
-
-**What:** Graph algorithm benchmarks (BFS, PageRank, betweenness centrality).
-
-**Why:** Tests irregular memory access patterns and graph analytics workloads.
-
-Building
---------
-
-.. code-block:: bash
-
-   cd workloads/gapbs
-   make
-
-Running
--------
-
-**Breadth-First Search:**
-
-.. code-block:: bash
-
-   LD_PRELOAD=/root/libmpi_cxl_shim.so ./bfs -g 20 -n 16
-
-**PageRank:**
-
-.. code-block:: bash
-
-   LD_PRELOAD=/root/libmpi_cxl_shim.so ./pr -g 20 -n 16 -i 20
-
-Key Parameters
---------------
-
-* ``-g 20`` - Graph scale (2^20 vertices)
-* ``-n 16`` - Number of trials
-* ``-i 20`` - Iterations (PageRank only)
-
-Available Algorithms
---------------------
-
-* ``bfs`` - Breadth-First Search
-* ``pr`` - PageRank
-* ``bc`` - Betweenness Centrality
-* ``cc`` - Connected Components
-* ``sssp`` - Single-Source Shortest Paths
-
-Expected Output
----------------
-
-.. code-block:: text
-
-   Trial 1 Time: 1.234 seconds
-   Trial 2 Time: 1.235 seconds
-   Average Time: 1.234 seconds
 
 Monitoring & Debugging
 ======================
