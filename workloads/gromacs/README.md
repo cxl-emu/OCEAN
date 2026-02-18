@@ -16,7 +16,7 @@ This shim layer intercepts OpenMPI calls and redirects memory operations to CXL 
 ## Building
 
 ```bash
-cd /home/victoryang00/CXLMemSim/workloads/gromacs
+cd <path/to/OCEAN>/workloads/gromacs
 make
 ```
 
