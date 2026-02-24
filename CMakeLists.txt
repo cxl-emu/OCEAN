@@ -53,12 +53,7 @@ target_link_libraries(cxlmemsim_server_lib cxlmemsim cxxopts::cxxopts spdlog::sp
 # Build server (uses server library + main)
 add_executable(cxlmemsim_server src/main_server.cc)
 target_include_directories(cxlmemsim_server PRIVATE include src ${cxxopts_INCLUDE_DIR} ${spdlog_INCLUDE_DIR})
-target_link_libraries(cxlmemsim_server cxlmemsim_server_lib cxlmemsim cxxopts::cxxopts spdlog::spdlog_header_only rt)
-
-# Distributed SHM test
-add_executable(test_distributed_shm tests/test_distributed_shm.cpp)
-target_include_directories(test_distributed_shm PRIVATE include src ${cxxopts_INCLUDE_DIR} ${spdlog_INCLUDE_DIR})
-target_link_libraries(test_distributed_shm cxlmemsim_server_lib cxlmemsim cxxopts::cxxopts spdlog::spdlog_header_only rt)
+target_link_libraries(cxlmemsim_server cxlmemsim_server_lib cxlmemsim cxxopts::cxxopts spdlog::spdlog_header_only rt))
 
 # Installation targets
 install(TARGETS cxlmemsim_server
